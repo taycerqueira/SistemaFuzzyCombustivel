@@ -66,10 +66,6 @@ public class Atributo {
 				
 
 		}
-
-			
-		
-
 		
 	}
 

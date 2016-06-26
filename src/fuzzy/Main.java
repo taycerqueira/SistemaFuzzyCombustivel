@@ -1,94 +1,69 @@
 package fuzzy;
 
 import wangmendel.*;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
 import net.sourceforge.jFuzzyLogic.*;
+import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
 public class Main {
 	
-	static String nomeBase = "autoMPG8-5-1tra";
-	static DataSource source;
-	static int quantConjuntosFuzzy = 3;
-	static double porcentagemTeste = 0.2;
+	static final String nomeBaseTreinamento = "autoMPG8-5-1tra";
+	static final String nomeBaseTeste = "autoMPG8-5-1tst";
+	static final int quantConjuntosFuzzy = 3;
+	
+	static DataSource sourceTreinamento;
+	static DataSource sourceTeste;
 	
 	public static void main(String[] args) throws Exception {
 		
-		source = new DataSource ("bases/arff/" + nomeBase + ".arff");
-	    Instances D = source.getDataSet();
+		sourceTreinamento = new DataSource ("bases/arff/" + nomeBaseTreinamento + ".arff");
+		sourceTeste = new DataSource ("bases/arff/" + nomeBaseTeste + ".arff");
+		
+	    Instances dataTreinamento = sourceTreinamento.getDataSet();
+	    Instances dataTeste = sourceTeste.getDataSet();
+	    
 	    //imprime informações associadas à base de dados
-	    int numInstancias = D.numInstances();
-	    System.out.println("* Quantidade de instâncias: " + numInstancias);  
-	    System.out.println("* Quantidade de atributos: " + D.numAttributes());
-	    System.out.println("* Quantidade de conjuntos fuzzy por atributo: " + quantConjuntosFuzzy);
-		
-	    int quantidade = (int) (numInstancias*porcentagemTeste);
-	    System.out.println("Quantidade de instâncias de teste: " + quantidade);
-	    
-		//Separo as instâncias que irão ser utilizadas para teste
-	    //gerarInidicesTeste(quantidade, numInstancias);
-	    
-	    //Pego as instancias de teste a partir de um arquivo 
-		//int[] indicesTeste = getIndicesTeste(quantidade);
-		
+	    System.out.println("\n---------- SISTEMA FUZZY - ANÁLISE DE CONSUMO DE COMBUSTÍVEL ----------\n");
+	    System.out.println("* Base de treinamento: " + nomeBaseTreinamento);
+	    System.out.println("* Base de teste: " + nomeBaseTeste);
+	    int numInstanciasTreinamento = dataTreinamento.numInstances();
+	    System.out.println("* Quantidade de instâncias: " + numInstanciasTreinamento);  
+	    System.out.println("* Quantidade de atributos: " + dataTreinamento.numAttributes());
+	    System.out.println("* Quantidade de conjuntos fuzzy: " + quantConjuntosFuzzy);
+	   
 		//Gera as regras usando wang-mendel e gera o arquivo .fcl
-		wangMendel();
+		wangMendel(quantConjuntosFuzzy);
 		
-		//Cria o sistema fuzzy a partir do arquivo fcl
-		FIS fis = FIS.load(("bases/fcl/" + nomeBase+".fcl"), true);
-
+		//TESTANDO SISTEMA
+		FIS fis = FIS.load(("bases/fcl/" + nomeBaseTreinamento+".fcl"), true);
 		if (fis == null) {
-			System.err.println("Can't load file: '" + nomeBase + "'");
+			System.err.println("Can't load file: '" + nomeBaseTreinamento + "'");
 			System.exit(1);
 		}
-		
-		System.out.println("\n=> Gerando sistema fuzzy...");
-		FunctionBlock fb = fis.getFunctionBlock(null);
-		//JFuzzyChart.get().chart(fb);
+		JFuzzyChart.get().chart(fis);
 
-		// Set inputs
-		fb.setVariable("Cylinders", 4);
-		fb.setVariable("Displacement", 112);
-		fb.setVariable("Horse_power", 88);
-		fb.setVariable("Weight", 2605);
-		fb.setVariable("Acceleration", 19.6);
-		fb.setVariable("Model_year", 82);
-		fb.setVariable("Origin", 1);
-
-		// Evaluate
-		fb.evaluate();
-
-		// Show output variable's chart
-		fb.getVariable("Mpg").defuzzify();
-		System.out.println("OUTPUT (Mpg): " + fb.getVariable("Mpg").getValue());
-		
-		 // Show each rule (and degree of support)
-	    //for(Rule r : fb.getFuzzyRuleBlock("No1").getRules())
-	      //System.out.println(r);
+	    int numInstanciasTeste = dataTeste.numInstances();
+	    System.out.println("* Quantidade de instâncias de teste: " + numInstanciasTeste);  
+	    testarSistema(fis, sourceTeste);
 		
 	}
 	
-	public static void wangMendel(){
+	public static void wangMendel(int quantConjuntosFuzzy){
 		
 		long inicio = System.currentTimeMillis(); 
 	    
 		try {
 		    
-		    System.out.println("=> Executando algoritmo de Wang-Mendel. Aguarde...");
-		    WangMendel wm = new WangMendel(source, quantConjuntosFuzzy);
+		    System.out.println("\n=> Executando algoritmo de Wang-Mendel. Aguarde...");
+		    WangMendel wm = new WangMendel(sourceTreinamento, quantConjuntosFuzzy);
 		    ArrayList<Regra> regras = wm.gerarRegras();
 		    
 		    System.out.println("Quantidade de regras geradas: " + regras.size());
@@ -105,49 +80,18 @@ public class Main {
 		
 	}
 	
-	private static boolean isParaTeste(int k, int[] indicesTeste){
-		
-		boolean resultado = false;
-		for(int i = 0; i < indicesTeste.length; i++){
-			if(indicesTeste[i] == k){
-				resultado =  true;
-				break;
-			}
-		}
-		return resultado;
-	}
-	
-	private static int[] sortearInstanciasTeste(int quantidade, int numInstancias){
-		
-		int[] indices = new int[quantidade];
-		
-		List<Integer> numeros = new ArrayList<Integer>();
-		for (int i = 0; i < numInstancias; i++) { 
-		    numeros.add(i);
-		}
-		//Embaralhamos os números:
-		Collections.shuffle(numeros);
-		//Adicionamos os números aleatórios no vetor
-		for (int i = 0; i < quantidade; i++) {
-			indices[i] = numeros.get(i);
-		}
-		
-		return indices;
-		
-	}
-	
 	private static void gerarArquivoFcl(ArrayList<Regra> regras, ArrayList<Atributo> listaAtributos) throws IOException{
 		
-	    System.out.println("=> Gerando arquivo .fcl...");
+	    System.out.println("\n=> Gerando arquivo .fcl...");
 	    
 	    //Gerar arquivo contendo o RULEBLOCK para ser inserido em um arquivo .fcl
-	    FileWriter arquivo = new FileWriter("bases/fcl/" + nomeBase + ".fcl"); 
+	    FileWriter arquivo = new FileWriter("bases/fcl/" + nomeBaseTreinamento + ".fcl"); 
 	    PrintWriter texto = new PrintWriter(arquivo);
 	    
 	    int indiceOutput = listaAtributos.size() - 1;
 	    Atributo consequente = listaAtributos.get(indiceOutput);
 	    
-	    texto.println("FUNCTION_BLOCK " + nomeBase.replace("-", ""));
+	    texto.println("FUNCTION_BLOCK " + nomeBaseTreinamento.replace("-", ""));
 	    
 	    texto.println("VAR_INPUT");  
 	    for(int i= 0; i < indiceOutput; i++){
@@ -168,28 +112,67 @@ public class Main {
 	    	Atributo atributo = listaAtributos.get(i);
 	    	
 	    	texto.println("FUZZIFY " + atributo.getNome());
-	    	//Os pontos dos conjuntos fuzzy são de pertinência triangular (3 pontos por conjunto)
-	    	for (ConjuntoFuzzy conjuntoFuzzy : atributo.getConjuntosFuzzy()) {	
+	    	
+	    	for (int c = 0; c < atributo.getConjuntosFuzzy().size(); c++) {	
+	    		ConjuntoFuzzy conjuntoFuzzy = atributo.getConjuntosFuzzy().get(c);
+	    		if(c == 0){
+		    		texto.print("\t TERM ");
+		    		texto.print(conjuntoFuzzy.getIdConjunto());
+		    		texto.print(" := ");
+		    		texto.print("(" + conjuntoFuzzy.getM() + ", 1) ");
+		    		texto.print("(" + conjuntoFuzzy.getLimiteSuperior() + ", 0);\n");
+	    		}
+	    		else if(c == atributo.getConjuntosFuzzy().size() - 1){
+		    		texto.print("\t TERM ");
+		    		texto.print(conjuntoFuzzy.getIdConjunto());
+		    		texto.print(" := ");
+		    		texto.print("(" + conjuntoFuzzy.getLimiteInferior() + ", 0) ");
+		    		texto.print("(" + conjuntoFuzzy.getM() + ", 1);\n");
+	    		}
+	    		else{
+		    		texto.print("\t TERM ");
+		    		texto.print(conjuntoFuzzy.getIdConjunto());
+		    		texto.print(" := ");
+		    		texto.print("(" + conjuntoFuzzy.getLimiteInferior() + ", 0) ");
+		    		texto.print("(" + conjuntoFuzzy.getM() + ", 1) ");
+		    		texto.print("(" + conjuntoFuzzy.getLimiteSuperior() + ", 0);\n");
+	    		}
+
+			}
+	    	
+	    	texto.println("END_FUZZIFY\n");
+	    
+	    }
+	    
+	    texto.println("DEFUZZIFY " + consequente.getNome());
+    	
+    	for (int c = 0; c < consequente.getConjuntosFuzzy().size(); c++) {	
+    		ConjuntoFuzzy conjuntoFuzzy = consequente.getConjuntosFuzzy().get(c);
+    		if(c == 0){
+	    		texto.print("\t TERM ");
+	    		texto.print(conjuntoFuzzy.getIdConjunto());
+	    		texto.print(" := ");
+	    		texto.print("(" + conjuntoFuzzy.getM() + ", 1) ");
+	    		texto.print("(" + conjuntoFuzzy.getLimiteSuperior() + ", 0);\n");
+    		}
+    		else if(c == consequente.getConjuntosFuzzy().size() - 1){
+	    		texto.print("\t TERM ");
+	    		texto.print(conjuntoFuzzy.getIdConjunto());
+	    		texto.print(" := ");
+	    		texto.print("(" + conjuntoFuzzy.getLimiteInferior() + ", 0) ");
+	    		texto.print("(" + conjuntoFuzzy.getM() + ", 1);\n");
+    		}
+    		else{
 	    		texto.print("\t TERM ");
 	    		texto.print(conjuntoFuzzy.getIdConjunto());
 	    		texto.print(" := ");
 	    		texto.print("(" + conjuntoFuzzy.getLimiteInferior() + ", 0) ");
 	    		texto.print("(" + conjuntoFuzzy.getM() + ", 1) ");
 	    		texto.print("(" + conjuntoFuzzy.getLimiteSuperior() + ", 0);\n");
-			}
-	    	texto.println("END_FUZZIFY\n");
-	    
-	    }
-	    
-	    texto.println("DEFUZZIFY " + consequente.getNome());
-    	for (ConjuntoFuzzy conjuntoFuzzy : consequente.getConjuntosFuzzy()) {	
-    		texto.print("\t TERM ");
-    		texto.print(conjuntoFuzzy.getIdConjunto());
-    		texto.print(" := ");
-    		texto.print("(" + conjuntoFuzzy.getLimiteInferior() + ", 0) ");
-    		texto.print("(" + conjuntoFuzzy.getM() + ", 1) ");
-    		texto.print("(" + conjuntoFuzzy.getLimiteSuperior() + ", 0);\n");
+    		}
+
 		}
+    	
 	    texto.println("\t METHOD : COG;"); // Use 'Center Of Gravity' defuzzification method
 	    texto.println("\t DEFAULT := 0;"); // Default value is 0 (if no rule activates defuzzifier)
 	    texto.println("END_DEFUZZIFY\n");
@@ -250,45 +233,53 @@ public class Main {
 		
 	}
 	
-	//Gera os indices de teste e coloca em um arquivo
-	public static void gerarInidicesTeste(int quantidade, int numInstancias){
+	private static void testarSistema(FIS fis, DataSource sourceTeste) throws Exception{
 		
-		int[] indicesTeste = sortearInstanciasTeste(quantidade, numInstancias);
+		Instances instancias = sourceTeste.getDataSet();
 		
-		File arquivo = new File("indicesTeste.txt");
+		System.out.println("\n=> Testando sistema...");
+		double somatorioErro = 0;
+		double mse = 0;
+		int tamanhoBaseTeste = sourceTeste.getDataSet().size();
 		
-		try(FileWriter fw = new FileWriter(arquivo)){
-			for (int indice : indicesTeste) {
-				fw.write(indice + "\r\n");
+		for (int k = 0; k < tamanhoBaseTeste; k++ ) {
+			
+			System.out.println("\n - Instância " + k);
+				
+			//System.out.println("Número da instância: " + k);
+			Instance instancia = instancias.get(k);
+			//Seta as entradas
+			//Considerando que o último atributo é sempre o atributo que corresponde a classe da instância, por isso usa-se o -1
+			for (int i = 0; i < (instancias.numAttributes() - 1); i++) {
+				
+				if(instancias.attribute(i).isNumeric()){
+
+					String nomeAtributo = instancias.attribute(i).name();
+					double valor = instancia.value(i);
+					//System.out.println(nomeAtributo + ": " + valor);
+					
+					fis.setVariable(nomeAtributo, valor);
+				}	
+
 			}
-		    fw.flush();
-		}catch(IOException ex){
-		  ex.printStackTrace();
+			
+			// Evaluate
+			fis.evaluate();
+			
+			//JFuzzyChart.get().chart(fis);
+			
+			double fuzzyOutput = fis.getVariable("Mpg").getValue();
+			System.out.println(" -- Saída fuzzy: " + fuzzyOutput);
+			double realOutput = instancia.value(instancias.numAttributes() - 1);
+			System.out.println(" -- Saída esperada: " + realOutput);
+			
+			double erro = Math.pow((realOutput - fuzzyOutput), 2);
+			somatorioErro += erro;
+
 		}
 		
-	}
-	
-	//Lê o arquivo e retorna os indices de teste
-	public static int[] getIndicesTeste(int quantidade){
-		
-		int[] indicesTeste = new int[quantidade];
-		int i = 0;
-		
-		File arquivo = new File("indicesTeste.txt");
-		try(InputStream in = new FileInputStream(arquivo) ){
-		  Scanner scan = new Scanner(in);
-		  while(scan.hasNext()){
-		    String indice = scan.nextLine();
-		    if(indice.length() > 0){
-		    	indicesTeste[i] = Integer.parseInt(indice);
-		    	i++;
-		    }
-		  }
-		}catch(IOException ex){
-		  ex.printStackTrace();
-		}
-		
-		return indicesTeste;
+		mse = somatorioErro/tamanhoBaseTeste;
+		System.out.println("\nMSE (Erro quadrático médio): " + mse);
 		
 	}
 
