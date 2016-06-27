@@ -1,0 +1,332 @@
+FUNCTION_BLOCK autoMPG855tra
+VAR_INPUT
+	Cylinders : REAL;
+	Displacement : REAL;
+	Horse_power : REAL;
+	Weight : REAL;
+	Acceleration : REAL;
+	Model_year : REAL;
+	Origin : REAL;
+END_VAR
+
+VAR_OUTPUT
+	Mpg : REAL;
+END_VAR
+
+FUZZIFY Cylinders
+	 TERM Cylinders_0 := (3.0, 1) (3.8333333333333335, 0);
+	 TERM Cylinders_1 := (3.0, 0) (3.8333333333333335, 1) (4.666666666666667, 0);
+	 TERM Cylinders_2 := (3.8333333333333335, 0) (4.666666666666667, 1) (5.5, 0);
+	 TERM Cylinders_3 := (4.666666666666667, 0) (5.5, 1) (6.333333333333333, 0);
+	 TERM Cylinders_4 := (5.5, 0) (6.333333333333333, 1) (7.166666666666666, 0);
+	 TERM Cylinders_5 := (6.333333333333333, 0) (7.166666666666666, 1) (7.999999999999999, 0);
+	 TERM Cylinders_6 := (7.166666666666666, 0) (7.999999999999999, 1);
+END_FUZZIFY
+
+FUZZIFY Displacement
+	 TERM Displacement_0 := (68.0, 1) (132.5, 0);
+	 TERM Displacement_1 := (68.0, 0) (132.5, 1) (197.0, 0);
+	 TERM Displacement_2 := (132.5, 0) (197.0, 1) (261.5, 0);
+	 TERM Displacement_3 := (197.0, 0) (261.5, 1) (326.0, 0);
+	 TERM Displacement_4 := (261.5, 0) (326.0, 1) (390.5, 0);
+	 TERM Displacement_5 := (326.0, 0) (390.5, 1) (455.0, 0);
+	 TERM Displacement_6 := (390.5, 0) (455.0, 1);
+END_FUZZIFY
+
+FUZZIFY Horse_power
+	 TERM Horse_power_0 := (46.0, 1) (75.83333333333333, 0);
+	 TERM Horse_power_1 := (46.0, 0) (75.83333333333333, 1) (105.66666666666666, 0);
+	 TERM Horse_power_2 := (75.83333333333333, 0) (105.66666666666666, 1) (135.5, 0);
+	 TERM Horse_power_3 := (105.66666666666666, 0) (135.5, 1) (165.33333333333334, 0);
+	 TERM Horse_power_4 := (135.5, 0) (165.33333333333334, 1) (195.16666666666669, 0);
+	 TERM Horse_power_5 := (165.33333333333334, 0) (195.16666666666669, 1) (225.00000000000003, 0);
+	 TERM Horse_power_6 := (195.16666666666669, 0) (225.00000000000003, 1);
+END_FUZZIFY
+
+FUZZIFY Weight
+	 TERM Weight_0 := (1613.0, 1) (2200.8333333333335, 0);
+	 TERM Weight_1 := (1613.0, 0) (2200.8333333333335, 1) (2788.666666666667, 0);
+	 TERM Weight_2 := (2200.8333333333335, 0) (2788.666666666667, 1) (3376.5000000000005, 0);
+	 TERM Weight_3 := (2788.666666666667, 0) (3376.5000000000005, 1) (3964.333333333334, 0);
+	 TERM Weight_4 := (3376.5000000000005, 0) (3964.333333333334, 1) (4552.166666666667, 0);
+	 TERM Weight_5 := (3964.333333333334, 0) (4552.166666666667, 1) (5140.0, 0);
+	 TERM Weight_6 := (4552.166666666667, 0) (5140.0, 1);
+END_FUZZIFY
+
+FUZZIFY Acceleration
+	 TERM Acceleration_0 := (8.5, 1) (11.216666666666667, 0);
+	 TERM Acceleration_1 := (8.5, 0) (11.216666666666667, 1) (13.933333333333334, 0);
+	 TERM Acceleration_2 := (11.216666666666667, 0) (13.933333333333334, 1) (16.65, 0);
+	 TERM Acceleration_3 := (13.933333333333334, 0) (16.65, 1) (19.366666666666667, 0);
+	 TERM Acceleration_4 := (16.65, 0) (19.366666666666667, 1) (22.083333333333336, 0);
+	 TERM Acceleration_5 := (19.366666666666667, 0) (22.083333333333336, 1) (24.800000000000004, 0);
+	 TERM Acceleration_6 := (22.083333333333336, 0) (24.800000000000004, 1);
+END_FUZZIFY
+
+FUZZIFY Model_year
+	 TERM Model_year_0 := (70.0, 1) (72.0, 0);
+	 TERM Model_year_1 := (70.0, 0) (72.0, 1) (74.0, 0);
+	 TERM Model_year_2 := (72.0, 0) (74.0, 1) (76.0, 0);
+	 TERM Model_year_3 := (74.0, 0) (76.0, 1) (78.0, 0);
+	 TERM Model_year_4 := (76.0, 0) (78.0, 1) (80.0, 0);
+	 TERM Model_year_5 := (78.0, 0) (80.0, 1) (82.0, 0);
+	 TERM Model_year_6 := (80.0, 0) (82.0, 1);
+END_FUZZIFY
+
+FUZZIFY Origin
+	 TERM Origin_0 := (1.0, 1) (1.3333333333333333, 0);
+	 TERM Origin_1 := (1.0, 0) (1.3333333333333333, 1) (1.6666666666666665, 0);
+	 TERM Origin_2 := (1.3333333333333333, 0) (1.6666666666666665, 1) (1.9999999999999998, 0);
+	 TERM Origin_3 := (1.6666666666666665, 0) (1.9999999999999998, 1) (2.333333333333333, 0);
+	 TERM Origin_4 := (1.9999999999999998, 0) (2.333333333333333, 1) (2.6666666666666665, 0);
+	 TERM Origin_5 := (2.333333333333333, 0) (2.6666666666666665, 1) (3.0, 0);
+	 TERM Origin_6 := (2.6666666666666665, 0) (3.0, 1);
+END_FUZZIFY
+
+DEFUZZIFY Mpg
+	 TERM Mpg_0 := (10.0, 1) (16.1, 0);
+	 TERM Mpg_1 := (10.0, 0) (16.1, 1) (22.200000000000003, 0);
+	 TERM Mpg_2 := (16.1, 0) (22.200000000000003, 1) (28.300000000000004, 0);
+	 TERM Mpg_3 := (22.200000000000003, 0) (28.300000000000004, 1) (34.400000000000006, 0);
+	 TERM Mpg_4 := (28.300000000000004, 0) (34.400000000000006, 1) (40.50000000000001, 0);
+	 TERM Mpg_5 := (34.400000000000006, 0) (40.50000000000001, 1) (46.60000000000001, 0);
+	 TERM Mpg_6 := (40.50000000000001, 0) (46.60000000000001, 1);
+	 METHOD : COG;
+	 DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	 AND : MIN;
+	 ACT : MIN;
+	 ACCU : MAX;
+
+	 RULE 1 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_6 AND Horse_power IS Horse_power_6 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 2 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_6 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 3 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_0 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 4 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_1 AND Acceleration IS Acceleration_6 AND Model_year IS Model_year_6 AND Origin IS Origin_3 THEN Mpg IS Mpg_6;
+	 RULE 5 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 6 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 7 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 8 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_3 THEN Mpg IS Mpg_4;
+	 RULE 9 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_3 THEN Mpg IS Mpg_4;
+	 RULE 10 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_0 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_3 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 11 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_4 AND Weight IS Weight_4 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 12 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_3 AND Origin IS Origin_3 THEN Mpg IS Mpg_1;
+	 RULE 13 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 14 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_4 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 15 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 16 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_6 THEN Mpg IS Mpg_1;
+	 RULE 17 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 18 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 19 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_6 AND Horse_power IS Horse_power_5 AND Weight IS Weight_6 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 20 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 21 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 22 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_4;
+	 RULE 23 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_3 THEN Mpg IS Mpg_2;
+	 RULE 24 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 25 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_3 THEN Mpg IS Mpg_5;
+	 RULE 26 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_4 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 27 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 28 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_3 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 29 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 30 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_5;
+	 RULE 31 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_0 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_6;
+	 RULE 32 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 33 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 34 : IF Cylinders IS Cylinders_0 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 35 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_5 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 36 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 37 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 38 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 39 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 40 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 41 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 42 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_5 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 43 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_4 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 44 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_3 THEN Mpg IS Mpg_1;
+	 RULE 45 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 46 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_4 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 47 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 48 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 49 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_1 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 50 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 51 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 52 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_3 THEN Mpg IS Mpg_2;
+	 RULE 53 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 54 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_2 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 55 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_5 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 56 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_6;
+	 RULE 57 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 58 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_6 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 59 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_4;
+	 RULE 60 : IF Cylinders IS Cylinders_2 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_4 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 61 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 62 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_6 AND Horse_power IS Horse_power_5 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 63 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_4 AND Weight IS Weight_3 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 64 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 65 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_5 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 66 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 67 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_3 THEN Mpg IS Mpg_2;
+	 RULE 68 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 69 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 70 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 71 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_1 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 72 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 73 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_0 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_0 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 74 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 75 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 76 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 77 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 78 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 79 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 80 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 81 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 82 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 83 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 84 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_6 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 85 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_2 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 86 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 87 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_4;
+	 RULE 88 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 89 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_2 AND Weight IS Weight_4 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 90 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_4 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 91 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_0 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_5;
+	 RULE 92 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 93 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 94 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 95 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 96 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 97 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_3 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 98 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 99 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_1 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_5 AND Origin IS Origin_3 THEN Mpg IS Mpg_6;
+	 RULE 100 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_4 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 101 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_4 AND Weight IS Weight_4 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 102 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_5 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 103 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 104 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 105 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 106 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_4;
+	 RULE 107 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 108 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_6 AND Horse_power IS Horse_power_6 AND Weight IS Weight_3 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 109 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_4 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 110 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_0 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 111 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 112 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_3 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 113 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_3 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_3 THEN Mpg IS Mpg_1;
+	 RULE 114 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_4 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 115 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_5 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 116 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 117 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 118 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 119 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_6 AND Horse_power IS Horse_power_6 AND Weight IS Weight_6 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 120 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_4 AND Weight IS Weight_5 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 121 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_3 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 122 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 123 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_3 THEN Mpg IS Mpg_2;
+	 RULE 124 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_3 AND Weight IS Weight_2 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 125 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_4 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 126 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 127 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 128 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 129 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 130 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 131 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 132 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_3 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 133 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 134 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 135 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 136 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_5 AND Weight IS Weight_4 AND Acceleration IS Acceleration_0 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 137 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_3 AND Weight IS Weight_3 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_3 THEN Mpg IS Mpg_1;
+	 RULE 138 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 139 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 140 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 141 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_4;
+	 RULE 142 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_6 AND Horse_power IS Horse_power_6 AND Weight IS Weight_5 AND Acceleration IS Acceleration_0 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 143 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_0 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 144 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_5 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 145 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 146 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 147 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 148 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_5 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 149 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_4 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 150 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_6 AND Origin IS Origin_3 THEN Mpg IS Mpg_4;
+	 RULE 151 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 152 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 153 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 154 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_6 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 155 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 156 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 157 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_0 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_0 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 158 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 159 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_4 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 160 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_1 AND Origin IS Origin_3 THEN Mpg IS Mpg_2;
+	 RULE 161 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 162 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_6 AND Horse_power IS Horse_power_5 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 163 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_5 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 164 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 165 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_4 AND Weight IS Weight_6 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 166 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 167 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 168 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_0 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_1 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 169 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 170 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 171 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 172 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 173 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_0 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 174 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_0 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_2 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 175 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_6 AND Weight IS Weight_5 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 176 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 177 : IF Cylinders IS Cylinders_2 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_5 AND Origin IS Origin_3 THEN Mpg IS Mpg_4;
+	 RULE 178 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_3 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 179 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 180 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_5 AND Model_year IS Model_year_2 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 181 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_3 THEN Mpg IS Mpg_4;
+	 RULE 182 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_4 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 183 : IF Cylinders IS Cylinders_0 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_6 THEN Mpg IS Mpg_1;
+	 RULE 184 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 185 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 186 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_6 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 187 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 188 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_6 AND Model_year IS Model_year_4 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 189 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 190 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_4 AND Weight IS Weight_5 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 191 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 192 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_3;
+	 RULE 193 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_3 THEN Mpg IS Mpg_2;
+	 RULE 194 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_0 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 195 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 196 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_4 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 197 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 198 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 199 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_0 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 200 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_6 AND Horse_power IS Horse_power_6 AND Weight IS Weight_5 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 201 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_5 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 202 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_2 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 203 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 204 : IF Cylinders IS Cylinders_0 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_6 THEN Mpg IS Mpg_2;
+	 RULE 205 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 206 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_3 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 207 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_0 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 208 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 209 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_6 AND Origin IS Origin_6 THEN Mpg IS Mpg_5;
+	 RULE 210 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_3 THEN Mpg IS Mpg_2;
+	 RULE 211 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 212 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_4 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 213 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_4 AND Weight IS Weight_3 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 214 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_5 AND Weight IS Weight_5 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 215 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_3 AND Weight IS Weight_4 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 216 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_4 AND Origin IS Origin_6 THEN Mpg IS Mpg_5;
+	 RULE 217 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_0 AND Weight IS Weight_0 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_3 AND Origin IS Origin_6 THEN Mpg IS Mpg_4;
+	 RULE 218 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 219 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_4 AND Horse_power IS Horse_power_4 AND Weight IS Weight_5 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_0;
+	 RULE 220 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_2 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_0 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 221 : IF Cylinders IS Cylinders_6 AND Displacement IS Displacement_5 AND Horse_power IS Horse_power_4 AND Weight IS Weight_4 AND Acceleration IS Acceleration_1 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_1;
+	 RULE 222 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_2 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_2 AND Origin IS Origin_3 THEN Mpg IS Mpg_2;
+	 RULE 223 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_3 AND Model_year IS Model_year_1 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+	 RULE 224 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_0 AND Horse_power IS Horse_power_1 AND Weight IS Weight_1 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_3 AND Origin IS Origin_6 THEN Mpg IS Mpg_3;
+	 RULE 225 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_2 AND Weight IS Weight_2 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_1 AND Origin IS Origin_3 THEN Mpg IS Mpg_1;
+	 RULE 226 : IF Cylinders IS Cylinders_1 AND Displacement IS Displacement_1 AND Horse_power IS Horse_power_1 AND Weight IS Weight_3 AND Acceleration IS Acceleration_4 AND Model_year IS Model_year_5 AND Origin IS Origin_3 THEN Mpg IS Mpg_3;
+	 RULE 227 : IF Cylinders IS Cylinders_4 AND Displacement IS Displacement_3 AND Horse_power IS Horse_power_2 AND Weight IS Weight_3 AND Acceleration IS Acceleration_2 AND Model_year IS Model_year_3 AND Origin IS Origin_0 THEN Mpg IS Mpg_2;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

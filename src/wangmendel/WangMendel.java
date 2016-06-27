@@ -10,16 +10,18 @@ import weka.core.Instances;
 
 public class WangMendel {
 	
-	private DataSource dados;
+	private DataSource dadosTreinamento;
+	private DataSource dadosTeste;
 	private Instances instancias;
 	private int quantRegioes;
 	private ArrayList<Atributo> listaAtributos;
 	
 	
-	public WangMendel(DataSource dados, int quantRegioes) throws Exception{
-		this.dados = dados;
+	public WangMendel(DataSource dadosTreinamento, DataSource dadosTeste, int quantRegioes) throws Exception{
+		this.dadosTreinamento = dadosTreinamento;
+		this.dadosTeste = dadosTeste;
 		this.quantRegioes = quantRegioes;
-		this.instancias = dados.getDataSet();
+		this.instancias = dadosTreinamento.getDataSet();
 		gerarlistaAtributos();
 	}
 	
@@ -43,7 +45,7 @@ public class WangMendel {
 			double grauRegra = 1; //Começa com 1 por ser um fator neutro na multiplicação
 			
 			//Pega cada atributo da instância
-			for (int i = 0; i < dados.getDataSet().numAttributes(); i++) {
+			for (int i = 0; i < dadosTreinamento.getDataSet().numAttributes(); i++) {
 				
 				double valor = instancia.value(i);
 				Atributo atributo  = getAtributoByName(instancia.attribute(i).name());
@@ -61,7 +63,7 @@ public class WangMendel {
 				}
 				
 				grauRegra *= maiorGrau;
-				if(i == dados.getDataSet().numAttributes() - 1){
+				if(i == dadosTreinamento.getDataSet().numAttributes() - 1){
 					consequente = conjuntoMaiorGrau;
 				}
 				else{
@@ -74,7 +76,7 @@ public class WangMendel {
 			}
 			
 			//Verfico se já existe alguma regra com os mesmos antecedentes
-			int quantAtributosAntecedentes = dados.getDataSet().numAttributes() - 1;
+			int quantAtributosAntecedentes = dadosTreinamento.getDataSet().numAttributes() - 1;
 			
 			if(regras.isEmpty()){
 				Regra regra = new Regra(antecedentes, consequente, grauRegra);
@@ -125,20 +127,40 @@ public class WangMendel {
 	
 	private void gerarlistaAtributos() throws Exception{
 		
+		Instances instanciasTeste = dadosTeste.getDataSet();
+		
 		this.listaAtributos = new ArrayList<Atributo>();
 		
-		for (int i = 0; i < dados.getDataSet().numAttributes(); i++) {
+		for (int i = 0; i < dadosTreinamento.getDataSet().numAttributes(); i++) {
 			
 			if(instancias.attribute(i).isNumeric()){
 				
-				AttributeStats as = instancias.attributeStats(i);
-				Stats s = as.numericStats;	
+				AttributeStats asTreinamento = instancias.attributeStats(i);
+				Stats sTreinamento = asTreinamento.numericStats;	
 				
-				/*System.out.println("Atributo: " + instancias.attribute(i).name());
-				System.out.println("Valor mínimo: " + s.min);
-				System.out.println("Valor máximo: " + s.max);*/
+				AttributeStats asTeste = instanciasTeste.attributeStats(i);
+				Stats sTeste = asTeste.numericStats;
 				
-				Atributo atributo = new Atributo(instancias.attribute(i).name(), s.min, s.max, this.quantRegioes);
+				double min;
+				double max;
+				if(sTreinamento.min < sTeste.min){
+					min = sTreinamento.min;
+				}
+				else{
+					min = sTeste.min;
+				}
+				
+				if(sTreinamento.max > sTeste.max){
+					max = sTreinamento.max;
+				}
+				else{
+					max = sTeste.max;
+				}
+				//System.out.println("Atributo: " + instancias.attribute(i).name());
+				//System.out.println("Valor mínimo: " + s.min);
+				//System.out.println("Valor máximo: " + s.max);
+				
+				Atributo atributo = new Atributo(instancias.attribute(i).name(), min, max, this.quantRegioes);
 				listaAtributos.add(atributo);
 				
 			}	

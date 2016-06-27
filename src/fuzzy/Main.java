@@ -63,7 +63,7 @@ public class Main {
 		try {
 		    
 		    System.out.println("\n=> Executando algoritmo de Wang-Mendel. Aguarde...");
-		    WangMendel wm = new WangMendel(sourceTreinamento, quantConjuntosFuzzy);
+		    WangMendel wm = new WangMendel(sourceTreinamento, sourceTeste, quantConjuntosFuzzy);
 		    ArrayList<Regra> regras = wm.gerarRegras();
 		    
 		    System.out.println("Quantidade de regras geradas: " + regras.size());
@@ -244,7 +244,7 @@ public class Main {
 		
 		for (int k = 0; k < tamanhoBaseTeste; k++ ) {
 			
-			System.out.println("\n - Instância " + k);
+			//System.out.println("\n - Instância " + k);
 				
 			//System.out.println("Número da instância: " + k);
 			Instance instancia = instancias.get(k);
@@ -269,11 +269,12 @@ public class Main {
 			//JFuzzyChart.get().chart(fis);
 			
 			double fuzzyOutput = fis.getVariable("Mpg").getValue();
-			System.out.println(" -- Saída fuzzy: " + fuzzyOutput);
+			//System.out.println(" -- Saída fuzzy: " + fuzzyOutput);
 			double realOutput = instancia.value(instancias.numAttributes() - 1);
-			System.out.println(" -- Saída esperada: " + realOutput);
+			//System.out.println(" -- Saída esperada: " + realOutput);
 			
 			double erro = Math.pow((realOutput - fuzzyOutput), 2);
+			//System.out.println(" --- Erro: " + erro);
 			somatorioErro += erro;
 
 		}
